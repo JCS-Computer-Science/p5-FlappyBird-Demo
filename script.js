@@ -8,6 +8,19 @@ let bird = {
 	size: 50,
 };
 let img;
+let spriteSheet;
+let frames = [
+	{ x: 0, y: 0 },
+	{ x: 64, y: 0 },
+	{ x: 128, y: 0 },
+	{ x: 192, y: 0 },
+	{ x: 0, y: 64 },
+	{ x: 64, y: 64 },
+	{ x: 128, y: 64 },
+	{ x: 192, y: 64 },
+];
+let currentFrame = 0;
+let animationDelay = 2;
 let pipes = [
 	{
 		x: 600,
@@ -21,6 +34,7 @@ let pipes = [
 
 function preload() {
 	img = loadImage("./bird.png");
+	spriteSheet = loadImage("./sprites.png");
 }
 
 function setup() {
@@ -44,7 +58,27 @@ function draw() {
 
 function drawBird() {
 	// circle(bird.x, bird.y, 50);
-	image(img, bird.x - bird.size / 2, bird.y - bird.size / 2, bird.size, bird.size);
+	image(
+		spriteSheet,
+
+		bird.x - bird.size / 2,
+		bird.y - bird.size / 2,
+		bird.size,
+		bird.size,
+		frames[currentFrame].x,
+		frames[currentFrame].y,
+		64,
+		64
+	);
+	if (animationDelay == 0) {
+		currentFrame++;
+		if (currentFrame >= frames.length) {
+			currentFrame = 0;
+		}
+		animationDelay = 2;
+	} else {
+		animationDelay--;
+	}
 }
 
 function applyPhysics() {
